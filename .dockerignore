@@ -1,0 +1,9 @@
+.venv
+.git
+.github
+tests
+docs
+__pycache__
+.pytest_cache
+train.py
+requirements-dev.txt

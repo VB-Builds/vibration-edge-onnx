@@ -1,0 +1,31 @@
+{
+  "claim": "A 1.7 KB model flagged a simulated bearing fault 15 windows after onset, still in zone A.",
+  "data_label": "simulated data: 400 one-second windows, seeded",
+  "stats": [
+    [
+      "15",
+      "windows from fault onset to first alarm",
+      "accent"
+    ],
+    [
+      "1.0 %",
+      "false alarms on healthy windows",
+      "green"
+    ],
+    [
+      "2.8 ms",
+      "features + model per window (p50)",
+      "amber"
+    ]
+  ],
+  "limit": "Simulated data only; not tried on real bearings or on ARM64 hardware.",
+  "alt": "Line chart on a log scale of an anomaly score over 400 simulated windows. The score stays under the alarm threshold until the fault begins at window 200, first alarms at 215, then climbs past 1000 while the ISO zone strip below is still green.",
+  "hashtags": [
+    "#IoT",
+    "#PredictiveMaintenance",
+    "#EdgeAI",
+    "#ONNX",
+    "#MQTT"
+  ],
+  "post": "A bearing that is starting to fail changes how a machine vibrates weeks before it breaks. Most alarms only look at overall vibration level, which moves late.\n\nI built a small open-source edge pipeline that scores one-second accelerometer windows next to the sensor. It computes 13 spectral features (including envelope energy at the bearing defect frequencies), scores them with a 1.7 KB anomaly model exported to ONNX, and publishes a health score over MQTT from a small container. You ship a few bytes instead of raw 3.2 kHz waveforms.\n\nMeasured on a simulated run to failure, 400 windows, fault starting at window 200: the first alarm came at window 215. At that point the overall vibration level was still in the lowest severity zone. False alarms were 1.0 % on held-out healthy windows. Features plus model took about 2.8 ms per window on an x86-64 laptop.\n\nWhat is not verified: all data is simulated by a generator I wrote, so the model looks better than it deserves. It has not seen real bearings, and the ARM64 container is untested on real hardware. Next step is replaying public bearing datasets.\n\nIf you run condition monitoring today, what would you need to see before you trusted a score like this on your own machines?\n\nCode: https://github.com/Usernamepersonperson/vibration-edge-onnx"
+}

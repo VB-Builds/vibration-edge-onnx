@@ -1,0 +1,17 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - "1883:1883"
+
+  edge-infer:
+    build: .
+    image: vibration-edge-onnx:latest
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+    command: ["--sim", "--loop", "--interval", "1", "--mqtt-host", "mosquitto", "--machine", "pump-01"]
+
+# Watch the output:  mosquitto_sub -h localhost -t 'plant/+/health' -v

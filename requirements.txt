@@ -1,0 +1,4 @@
+# Runtime (edge container)
+numpy>=1.26
+onnxruntime>=1.18
+paho-mqtt>=2.0

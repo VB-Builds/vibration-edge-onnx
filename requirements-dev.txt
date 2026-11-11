@@ -1,0 +1,5 @@
+# Training + tests (on top of requirements.txt)
+-r requirements.txt
+onnx>=1.16
+scikit-learn>=1.4
+pytest>=8
